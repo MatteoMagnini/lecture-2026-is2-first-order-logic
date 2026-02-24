@@ -1,5 +1,5 @@
 %! Author = matteomagnini
-%! Date = 17/02/26
+%! Date = 24/02/26
 
 % Preamble
 \documentclass[11pt]{article}
@@ -7,6 +7,7 @@
 % Packages
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{my-acronyms}
 
 \title{
     Intelligent System 2\\
@@ -22,7 +23,9 @@
 
     \maketitle
 
-    \section{Identity in First Order Logic}\label{sec:identity-in-first-order-logic}
+    \section{More theory on First Order Logic}\label{sec:more-theory-on-first-order-logic}
+    
+    \subsection{Identity in First Order Logic}\label{subsec:identity-in-first-order-logic}
 
     We define the identity relation over a set $M$ as follows:
     \[
@@ -31,7 +34,7 @@
     In other words, $(x, y) \in \operatorname{Id}_M$ if and only if $x = y$.
 
     Let us introduce a symbol for identity $\approx_{(2)}$ in our language $\mathcal{L}$.
-    In First Order Logic (FOL), it is customary to:
+    In \ac{FOL}, it is customary to:
     \begin{itemize}
         \item write $\approx$ using infix notation $x \approx y$, rather than $\approx(x, y)$
         \item interpret $\approx$ as identity $=$, rather than as an arbitrary 2-ary relation over $M$
@@ -51,10 +54,10 @@
     \end{enumerate}
 
 
-    \section{Knowledge representation: Definite Descriptions}
-    \label{sec:knowledge-representation:-definite-descriptions}
+    \subsection{Knowledge representation: Definite Descriptions}
+    \label{subsec:knowledge-representation:-definite-descriptions}
 
-    The way that FOL handles the example ``A cat is on a mat'' is:
+    The way that \ac{FOL} handles the example ``A cat is on a mat'' is:
     \[
     \exists x\, \exists y\, (\text{Cat}(x) \wedge \text{Mat}(y) \wedge \text{Is\_On}(x, y))
     \]
@@ -78,7 +81,7 @@
     In comparison, using the above formalization would give a false sentence in case of two popes, as expected.
 
 
-    \section{Knowledge representation: Concepts}\label{sec:knowledge-representation:-concepts}
+    \subsection{Knowledge representation: Concepts}\label{subsec:knowledge-representation:-concepts}
 
     \paragraph{Example.}
     Consider the sentence:
@@ -100,15 +103,15 @@
     Note that (1) is a concept inclusion, and (2) states that ``being above'' is a transitive relation.
 
 
-    \section{Knowledge Representation: Exercise}
-    \label{sec:knowledge-representation:-exercise}
+    \subsection{Knowledge Representation: Exercise}
+    \label{subsec:knowledge-representation:-exercise}
 
     Let $\mathcal{L}$ be the language with $\mathsf{Pred} = \{\text{Child\_of}_{(2)},\, \text{Male}_{(1)},\, \text{Female}_{(1)}\}$.
     Expand $\mathcal{L}$ to include the predicates:
 
     \textit{Parent\_of(2), Father\_of(2), Mother\_of(2), Sibling\_of(2), Uncle\_of(2), Grandma\_of(2), Cousin\_of(2)}.
 
-    Give a FOL formula that defines each new predicate.
+    Give a \ac{FOL} formula that defines each new predicate.
 
     \[
     \begin{array}{ll}
@@ -123,5 +126,81 @@
     \]
 
     \textbf{Hint:} You can use predicates already defined when defining the theory for other predicates.
+
+    \newpage
+    \section{Exercises}\label{sec:exercises}
+
+    \subsection{Exercise 1}\label{subsec:exercise-1}
+
+    Let $\mathcal{L}_2$ be a first-order language with the following signature:
+    \begin{itemize}
+        \item $\text{Ctt} = \{a, b\}$
+        \item $\text{Pred} = \{R^{(2)}\}$
+        \item $\text{Func} = \{f^{(1)}\}$
+    \end{itemize}
+
+    Let a model $\mathcal{M} = (M, \cdot^\mathcal{M})$ be defined by:
+
+    \begin{itemize}
+        \item $M = \{\triangle,\, \square,\, \triangledown,\, \lozenge\}$
+        \item $a^\mathcal{M} = \triangle$
+        \item $b^\mathcal{M} = \square$
+        \item $f^\mathcal{M}$ defined as:
+            \[
+                f^\mathcal{M} :
+                \begin{cases}
+                    \triangle \mapsto \square \\
+                    \square \mapsto \triangledown \\
+                    \triangledown \mapsto \lozenge \\
+                    \lozenge \mapsto \triangle
+                \end{cases}
+            \]
+        \item $R^\mathcal{M} = \{
+            \langle \triangle,\, \triangledown \rangle,\;
+            \langle \square,\, \lozenge \rangle,\;
+            \langle \lozenge,\, \triangle \rangle,\;
+            \langle \triangledown,\, \square \rangle
+            \}$
+    \end{itemize}
+
+    Let $\mathcal{M}$ be an $\mathcal{L}_2$-structure and let $s$ be some assignment.
+
+    \begin{enumerate}
+        \item For each term, please give its interpretation with respect to $\mathcal{M}$:
+        \begin{enumerate}
+            \item $f(f(b))$
+            \item $R(a, f(b))$
+            \item $R(f(a), f(f(b)))$
+        \end{enumerate}
+        \item Are the following formulas satisfied in $\mathcal{M}$? Justify your answer briefly.
+        \begin{enumerate}
+            \item $R(a, f(b))$
+            \item $R(f(f(f(a))), f(b))$
+            \item $\forall x_1 \; (f(f(f(f(x_1)))) \approx x_1)$
+        \end{enumerate}
+    \end{enumerate}
+
+    \subsection{Exercise 2}\label{subsec:exercise-2}
+
+    Provide a model and a counter-model for the following formulas:
+
+    \begin{enumerate}
+        \item $\forall x\, ((P(x, b) \wedge Q(x)) \rightarrow R(x, a))$
+
+        \item $\forall y\, (\exists x\ (R(a, x) \rightarrow (P(y, x) \wedge Q(y))))$
+    \end{enumerate}
+
+
+    \subsection{Exercise 3}\label{subsec:exercise-3}
+
+    Translate the following first-order formulae into English, associating to each predicate the most intuitive meaning (e.g.\ \texttt{Human( )} is read as ``\, is a human''):
+
+    \begin{enumerate}
+        \item $\forall x\, (\text{Ostrich}(x) \rightarrow (\text{Bird}(x) \wedge \neg \text{Fly}(x) \wedge \text{Wings}(x)))$
+
+        \item $\forall x\, \forall y\, ((\text{Wolf}(x) \wedge \text{Deer}(y)) \rightarrow \text{Hunts}(x, y))$
+
+        \item $\forall x\, ((\text{Boat}(x) \wedge \text{Floats}(x, \text{Pacific})) \rightarrow (\neg\text{Leaky}(x) \wedge \exists y\, (\text{Crewed}(x, y))))$
+    \end{enumerate}
 
 \end{document}
