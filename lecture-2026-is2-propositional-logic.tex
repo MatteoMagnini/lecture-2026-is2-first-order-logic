@@ -1,0 +1,382 @@
+%! Author = matteomagnini
+%! Date = 17/02/26
+
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{
+    Intelligent System 2\\
+    Tutorial week 1: Propositional logic
+}
+
+\date{
+    20 February, 2026
+}
+
+% Document
+\begin{document}
+
+    \maketitle
+
+    \section{Set Theory}
+    \label{sec:set-theory}
+
+    Let $A$ and $B$ be two sets.
+    %
+    \begin{itemize}
+        \item The letter $x$ denotes a generic element, commonly used as a variable.
+        \item The letter $a$ denotes a specific element, often used for concrete examples.
+        \item The symbol $\phi$ denotes a property, condition, or predicate which can be either true or false for a given element.
+    \end{itemize}
+
+    \textbf{Notation:}
+    \begin{itemize}
+        \item $\{x : \phi(x)\}$ denotes the set of all elements $x$ such that the property $\phi(x)$ is true.
+        \item $a \in \{x : \phi(x)\}$ if and only if $\phi(a)$ holds; that is, $a$ satisfies the property $\phi$.
+        \item $\{a_1, a_2, \dots, a_n\}$ is the set containing the elements $a_1, a_2, \dots, a_n$.
+        \item $x \in \{a_1, a_2, \dots, a_n\}$ if and only if $x = a_1$ or $x = a_2$ or $\dots$ or $x = a_n$.
+    \end{itemize}
+
+    \textbf{Example:}
+    \begin{itemize}
+        \item If $\phi(x)$ means ``$x$ is an even number,'' then $\{x : \phi(x)\}$ is the set of all even numbers.
+        \item Therefore, $4 \in \{x : \phi(x)\}$, since $\phi(4)$ (``4 is even'') is true.
+    \end{itemize}
+
+    \subsection{Sets of Sets}
+    \label{subsec:sets-of-sets}
+
+    A \emph{set of sets} is a set whose elements are themselves sets.
+    %
+    Let us consider specific examples:
+
+    \begin{itemize}
+        \item Let $X = \{\{1,2\}, \{3,4\}\}$.
+        \item Let $I = \{1,2\}$.
+    \end{itemize}
+
+    We analyze membership:
+    \begin{align*}
+        &I \in X \quad &\text{(True, since $I$ is exactly one of the elements of $X$)}. \\
+        &1 \in X \quad &\text{(False, since $1$ is an element of $I$, not directly of $X$)}. \\
+        &I \subseteq X \quad &\text{(False, since not every element of $I$ is a set contained in $X$)}.
+    \end{align*}
+
+    \textbf{General Principle:}
+
+    Given a set $S$ and a set of sets $Z$, an element $A$ satisfies
+    \[
+    A \in Z \iff A \text{ is one of the sets contained in } Z.
+    \]
+    Whereas
+    \[
+    A \subseteq Z \iff \text{every element of } A \text{ is an element of } Z \text{ (not necessarily a set)}.
+    \]
+
+    \textbf{Another Example:}
+
+    \begin{itemize}
+        \item Let $Y = \{ \{a\}, \{b, c\}, \emptyset \}$.
+        \item Is $\{a\} \in Y$? \hspace{1cm} Yes, since $\{a\}$ is one of the elements (sets) in $Y$.
+        \item Is $a \in Y$? \hspace{1.7cm} No, since $a$ itself does not appear as an element of $Y$; it is contained in $\{a\}$.
+        \item Is $\emptyset \in Y$? \hspace{1.3cm} Yes, as it is explicitly listed as an element.
+    \end{itemize}
+
+    Thus, membership in a set of sets always refers to the entire set being an element, not just its contents.
+
+    \subsection{Set Operations}
+    \label{subsec:set-operations}
+
+    Given two sets $A$ and $B$, we define the following standard operations:
+
+    \begin{itemize}
+        \item \textbf{Union:}
+        \[
+            A \cup B = \{\, x \mid x \in A \text{ or } x \in B \,\}
+        \]
+        An element is in the union if it belongs to at least one of the sets.
+
+        \item \textbf{Intersection:}
+        \[
+            A \cap B = \{\, x \mid x \in A \text{ and } x \in B \,\}
+        \]
+        An element is in the intersection if it belongs to both sets.
+
+        \item \textbf{Set Difference:}
+        \[
+            A - B = \{\, x \mid x \in A \text{ and } x \notin B \,\}
+        \]
+        An element is in the difference if it is in $A$ and not in $B$.
+
+        \item \textbf{Complement:}
+        \[
+            \overline{A} = U - A
+        \]
+        where $U$ denotes the universe under consideration.
+        %
+        The complement contains all elements in $U$ that are not in $A$.
+    \end{itemize}
+
+    \textbf{Examples:}
+
+    \begin{itemize}
+        \item Let $A = \{1, 2, 3\}$ and $B = \{3, 4, 5\}$.
+
+        \item Union:\\
+        $A \cup B = \{1, 2, 3, 4, 5\}$
+
+        \item Intersection:\\
+        $A \cap B = \{3\}$
+
+        \item Difference:\\
+        $A - B = \{1, 2\}$\\
+        $B - A = \{4, 5\}$
+
+        \item If $U = \{1, 2, 3, 4, 5, 6\}$, then the complement of $A$ is:\\
+        $\overline{A} = U - A = \{4, 5, 6\}$
+    \end{itemize}
+
+    \textbf{Properties:}
+    \begin{itemize}
+        \item $A \cap B \subseteq A$
+        \item $A \subseteq A \cup B$
+        \item $A - B \subseteq A$
+        \item $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+        \item $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+    \end{itemize}
+
+    \subsection{De Morgan's Laws}
+    \label{subsec:de-morgan}
+
+    De Morgan's Laws provide relationships between unions, intersections, and complements of sets.
+    %
+    Specifically, for any two sets $A$ and $B$ in a universe $U$:
+
+    \begin{align*}
+        \overline{A \cup B} &= \overline{A} \cap \overline{B} \\
+        \overline{A \cap B} &= \overline{A} \cup \overline{B}
+    \end{align*}
+
+    where $\overline{A}$ denotes the complement of $A$ with respect to $U$.
+
+    \paragraph{Truth Tables for De Morgan's Laws}
+
+    Let $x$ be an element of the universe $U$.
+    %
+    We analyze its membership for all possible cases:
+
+    \begin{center}
+    \begin{tabular}{|c|c||c|c|c|c|c|}
+        \hline
+        $x \in A$ & $x \in B$ & $x \in A \cup B$ & $x \in \overline{A \cup B}$ & $x \in \overline{A}$ & $x \in \overline{B}$ & $x \in \overline{A} \cap \overline{B}$ \\
+        \hline
+        F & F & F & T & T & T & T \\
+        F & T & T & F & T & F & F \\
+        T & F & T & F & F & T & F \\
+        T & T & T & F & F & F & F \\
+        \hline
+    \end{tabular}
+    \end{center}
+
+    From the first and last columns we see
+    \[
+    x \in \overline{A \cup B} \iff x \in \overline{A} \cap \overline{B}
+    \]
+
+    \vspace{0.5cm}
+
+    \begin{center}
+    \begin{tabular}{|c|c||c|c|c|c|c|}
+        \hline
+        $x \in A$ & $x \in B$ & $x \in A \cap B$ & $x \in \overline{A \cap B}$ & $x \in \overline{A}$ & $x \in \overline{B}$ & $x \in \overline{A} \cup \overline{B}$ \\
+        \hline
+        F & F & F & T & T & T & T \\
+        F & T & F & T & T & F & T \\
+        T & F & F & T & F & T & T \\
+        T & T & T & F & F & F & F \\
+        \hline
+    \end{tabular}
+    \end{center}
+
+    From the first and last columns we see
+    \[
+    x \in \overline{A \cap B} \iff x \in \overline{A} \cup \overline{B}
+    \]
+
+    \textbf{Conclusion:}\\
+    The truth tables confirm the validity of De Morgan's Laws for set complements, unions, and intersections.
+
+    \paragraph{Alternative Forms of De Morgan's Laws}
+
+    Besides the standard complement forms, De Morgan's Laws can also be expressed as:
+
+    \begin{align*}
+        A \cap B &= \overline{\,\overline{A} \cup \overline{B}\,} \\[1em]
+        A \cup B &= \overline{\,\overline{A} \cap \overline{B}\,}
+    \end{align*}
+
+    \noindent
+    In words:
+    \begin{itemize}
+        \item The intersection of $A$ and $B$ equals the complement of the union of their respective complements.
+        \item The union of $A$ and $B$ equals the complement of the intersection of their respective complements.
+    \end{itemize}
+
+    \noindent
+    \textbf{Remark:} The truth tables and verification of these equivalences are left as an exercise for the student.
+
+
+    \subsection{Power Set}
+    \label{subsec:power-set}
+
+    Given a set $A$, the \textbf{power set} of $A$, denoted by $P(A)$ or $2^A$, is the set of all subsets of $A$.
+
+    \[
+    P(A) = \{\, X \mid X \subseteq A\,\}
+    \]
+
+    \textbf{Example:}
+    If $A = \{a, b\}$, then
+
+    \[
+    P(A) = \{\varnothing, \{a\}, \{b\}, \{a, b\}\}
+    \]
+
+    
+
+    \subsection*{Union of a Family of Sets}
+
+    Let $\mathcal{C}$ be a family (collection) of sets.
+    %
+    The \textbf{union} of $\mathcal{C}$ is the set of all elements that belong to at least one set in $\mathcal{C}$:
+
+    \[
+    \bigcup \mathcal{C} = \{\, x \mid \exists A \in \mathcal{C} \text{ such that } x \in A\,\}
+    \]
+
+    \textbf{Example:}
+    If $\mathcal{C} = \{\,\{1,2\},\,\{3\},\,\{4,5\}\,\}$, then
+
+    \[
+    \bigcup \mathcal{C} = \{1, 2, 3, 4, 5\}
+    \]
+
+
+    \subsection{Ordered Pairs}
+    \label{subsec:ordered-pairs}
+
+    An \textbf{ordered pair} $(a, b)$ is represented in set theory by
+
+    \[
+    \langle a, b \rangle = \{\{a\}, \{a, b\}\}
+    \]
+
+    Ordered pairs satisfy the property:
+
+    \[
+    \langle a, b \rangle = \langle c, d \rangle \iff a = c \text{ and } b = d
+    \]
+
+
+    \subsection{Cartesian Product}
+    \label{subsec:cartesian-product}
+
+    Given two sets $A$ and $B$, the \textbf{Cartesian product} is the set of all ordered pairs $(x, y)$ with $x \in A$ and $y \in B$:
+
+    \[
+    A \times B = \{\,(x, y)\,|\, x \in A,\ y \in B\,\}
+    \]
+
+    \textbf{Example:}
+    If $A = \{1, 2\}$ and $B = \{3, 4\}$,
+
+    \[
+    A \times B = \{ (1,3),\ (1,4),\ (2,3),\ (2,4)\}
+    \]
+
+
+    \subsection{Relations}
+    \label{subsec:relations}
+
+    A \textbf{relation} $R$ on a set $A$ is a subset of the Cartesian product $A \times A$:
+
+    \[
+    R \subseteq A \times A
+    \]
+
+    If $R$ and $S$ are two relations on $A$, we can define:
+    \begin{itemize}
+        \item $a\,(R \cup S)\,b$ iff $a\,R\,b$ or $a\,S\,b$
+        \item $a\,(R \cap S)\,b$ iff $a\,R\,b$ and $a\,S\,b$
+        \item $a\,(R - S)\,b$ iff $a\,R\,b$ and not $a\,S\,b$
+    \end{itemize}
+
+
+    \newpage
+    \section{Exercises}
+    \label{sec:exercises}
+
+    \subsection*{Exercise 1}
+
+    Give the subformulas of the following propositional formulae:
+
+    \begin{enumerate}
+        \item $(p_1 \vee p_2) \wedge (p_3 \vee p_4)$
+        \item $\neg (\neg p_1 \wedge \neg p_2)$
+        \item $(\neg p_1 \wedge (\neg p_2 \rightarrow p_3))$
+    \end{enumerate}
+
+    
+    \subsection*{Exercise 2}
+
+    Soundness and completeness are important properties of proof calculi.
+    Why is it important that both properties are met at the same time?
+    To illustrate your answer, please give a definition of a provability predicate $\vdash$ (i.e.\ ``$\vdash A$'' means $A$ is provable) that\ldots
+
+    \begin{enumerate}
+        \item is sound for propositional logic, but not complete.
+        \item is complete for propositional logic, but not sound.
+    \end{enumerate}
+
+    
+    \subsection*{Exercise 3}
+
+    Provide all variable assignments verifying the following propositional formulae:
+
+    \begin{enumerate}
+        \item $\neg p_1 \vee p_2$
+        \item $\neg p_1 \wedge (p_2 \rightarrow p_3)$
+        \item $(p_1 \rightarrow p_2) \wedge (\neg p_3)$
+    \end{enumerate}
+
+    \subsection*{Exercise 4}
+
+    Simplify the following propositional formulas step-by-step by repeatedly applying De Morgan's Laws and other logical equivalences:
+
+    \begin{enumerate}
+        \item $\neg ((p \vee q) \wedge (\neg r \vee s))$
+
+        \item $\neg (\neg(p \wedge q) \vee (\neg r \wedge t))$
+
+        \item $\neg ((\neg(p \vee q)) \wedge \neg(\neg r \vee s))$
+
+        \item $\neg ((\neg p \vee q) \wedge (\neg t \vee \neg u))$
+    \end{enumerate}
+
+    \subsection*{Exercise 5}
+
+    Show the following propositional formulae are not valid.
+    If they are satisfiable, provide a variable assignment verifying them:
+
+    \begin{enumerate}
+        \item $(p_1 \vee p_2) \wedge (p_3 \vee p_4)$
+        \item $\neg (\neg p_1 \wedge \neg p_2)$
+        \item $(\neg p_1 \wedge (\neg p_2 \rightarrow p_3))$
+    \end{enumerate}
+
+
+\end{document}
