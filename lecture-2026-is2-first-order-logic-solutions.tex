@@ -1,5 +1,5 @@
 %! Author = matteomagnini
-%! Date = 17/02/26
+%! Date = 24/02/26
 
 % Preamble
 \documentclass[11pt]{article}
@@ -7,266 +7,140 @@
 % Packages
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{my-acronyms}
+\usepackage{hyperref}
 
 \title{
     Intelligent System 2\\
-    Tutorial week 1: Propositional logic
+    Tutorial week 2: First Order Logic
+}
+
+\author{
+    Matteo Magnini\\
+    \href{mailto:matteo.magnini@uni.lu}{matteo.magnini@uni.lu}
 }
 
 \date{
-    20 February, 2026
+    26 February, 2026
 }
-
 
 % Document
 \begin{document}
 
     \maketitle
 
-    \section{Exercises}
-    \label{sec:exercises}
+    \subsection{Knowledge Representation: Exercise}
+    \label{subsec:knowledge-representation:-exercise}
 
-    \subsection*{Exercise 1}
+    Let $\mathcal{L}$ be the language with $\mathsf{Pred} = \{\text{Child\_of}_{(2)},\, \text{Male}_{(1)},\, \text{Female}_{(1)}\}$.
+    Expand $\mathcal{L}$ to include the predicates:
 
-    Give the subformulas of the following propositional formulae:
+    \textit{Parent\_of(2), Father\_of(2), Mother\_of(2), Sibling\_of(2), Uncle\_of(2), Grandma\_of(2), Cousin\_of(2)}.
 
-    \begin{enumerate}
-        \item $(p_1 \vee p_2) \wedge (p_3 \vee p_4)$
-        \item $\neg (\neg p_1 \wedge \neg p_2)$
-        \item $(\neg p_1 \wedge (\neg p_2 \rightarrow p_3))$
-    \end{enumerate}
-
-    \subsection*{Solution to Exercise 1}
-
-    Below are all the subformulas for each given propositional formula:
-
-    \begin{enumerate}
-        \item \textbf{$(p_1 \vee p_2) \wedge (p_3 \vee p_4)$}
-
-        The subformulas are:
-        \begin{itemize}
-            \item $(p_1 \vee p_2) \wedge (p_3 \vee p_4)$
-            \item $(p_1 \vee p_2)$
-            \item $p_1$
-            \item $p_2$
-            \item $(p_3 \vee p_4)$
-            \item $p_3$
-            \item $p_4$
-        \end{itemize}
-
-        \item \textbf{$\neg (\neg p_1 \wedge \neg p_2)$}
-
-        The subformulas are:
-        \begin{itemize}
-            \item $\neg(\neg p_1 \wedge \neg p_2)$
-            \item $(\neg p_1 \wedge \neg p_2)$
-            \item $\neg p_1$
-            \item $p_1$
-            \item $\neg p_2$
-            \item $p_2$
-        \end{itemize}
-
-        \item \textbf{$(\neg p_1 \wedge (\neg p_2 \rightarrow p_3))$}
-
-        The subformulas are:
-        \begin{itemize}
-            \item $(\neg p_1 \wedge (\neg p_2 \rightarrow p_3))$
-            \item $\neg p_1$
-            \item $p_1$
-            \item $(\neg p_2 \rightarrow p_3)$
-            \item $\neg p_2$
-            \item $p_2$
-            \item $p_3$
-        \end{itemize}
-    \end{enumerate}
-
-    
-    \subsection*{Exercise 2}
-
-    Soundness and completeness are important properties of proof calculi.
-    Why is it important that both properties are met at the same time?
-    To illustrate your answer, please give a definition of a provability predicate $\vdash$ (i.e.\ ``$\vdash A$'' means $A$ is provable) that\ldots
-
-    \begin{enumerate}
-        \item is sound for propositional logic, but not complete.
-        \item is complete for propositional logic, but not sound.
-    \end{enumerate}
-
-    \subsection*{Solution to Exercise 2}
-
-    \textbf{Answer:}
-
-    Soundness ensures that every provable formula is also a semantic truth (valid in all interpretations),
-    while completeness guarantees that every semantic truth is provable in the calculus.
+    Give a \ac{FOL} formula that defines each new predicate.
     %
-    Both properties are essential:
-    if only soundness holds,
-    the calculus might fail to prove some true formulas (it is too weak);
-    if only completeness holds,
-    the calculus may allow the proof of formulas that are not actually true (it is too permissive).
-    %
-    Only when both soundness and completeness hold can we be confident that ``provable'' and ``true'' coincide.
+    \[
+    \begin{array}{ll}
+    \forall x\, \forall y\;(\text{Parent\_of}(x, y) \leftrightarrow \text{Child\_of}(y, x)) \\
+    \forall x\, \forall y\;(\text{Father\_of}(x, y) \leftrightarrow \text{Parent\_of}(x, y) \wedge \text{Male}(x)) \\
+    \forall x\, \forall y\;(\text{Mother\_of}(x, y) \leftrightarrow \text{Parent\_of}(x, y) \wedge \text{Female}(x)) \\
+    \forall x\, \forall y\;(\text{Sibling\_of}(x, y) \leftrightarrow \exists p\, (\text{Parent\_of}(p, x) \wedge \text{Parent\_of}(p, y) \wedge x \not\approx y)) \\
+    \forall x\, \forall y\;(\text{Uncle\_of}(x, y) \leftrightarrow \exists p\, (\text{Parent\_of}(p, y) \wedge \text{Sibling\_of}(x, p) \wedge \text{Male}(x))) \\
+    \forall x\, \forall y\;(\text{Grandma\_of}(x, y) \leftrightarrow \exists p\, (\text{Parent\_of}(p, y) \wedge \text{Mother\_of}(x, p))) \\
+    \forall x\, \forall y\;(\text{Cousin\_of}(x, y) \leftrightarrow \exists p\, \exists q\, (\text{Parent\_of}(p, x) \wedge \text{Parent\_of}(q, y) \wedge \text{Sibling\_of}(p, q)))
+    \end{array}
+    \]
+
+    \textbf{Hint:} You can use predicates already defined when defining the theory for other predicates.
+
+    \section{Solutions}\label{sec:solutions}
+
+    \subsection{Solution to Exercise 1}\label{subsec:solution-to-exercise-1}
 
     \begin{enumerate}
-        \item \textbf{A provability predicate that is sound but not complete:}
+        \item \textbf{Interpretation of the terms:}
+        \begin{enumerate}
+            \item $f(f(b))$:
+            \begin{itemize}
+                \item $b^\mathcal{M} = \square$
+                \item $f^\mathcal{M}(\square) = \triangledown$
+                \item $f^\mathcal{M}(\triangledown) = \lozenge$
+                \item \textbf{Result:} $(f(f(b)))^\mathcal{M} = \lozenge$
+            \end{itemize}
+            \item $R(a, f(b))$:
+            \begin{itemize}
+                \item $a^\mathcal{M} = \triangle$
+                \item $f^\mathcal{M}(b^\mathcal{M}) = f^\mathcal{M}(\square) = \triangledown$
+                \item $R^\mathcal{M}$ contains $(\triangle, \triangledown)$
+                \item \textbf{Result:} $R(a, f(b))^\mathcal{M} = \text{true}$
+            \end{itemize}
+            \item $R(f(a), f(f(b)))$:
+            \begin{itemize}
+                \item $f^\mathcal{M}(a^\mathcal{M}) = f^\mathcal{M}(\triangle) = \square$
+                \item $f(f(b))^\mathcal{M} = \lozenge$
+                \item $R^\mathcal{M}$ contains $(\square, \lozenge)$
+                \item \textbf{Result:} $R(f(a), f(f(b)))^\mathcal{M} = \text{true}$
+            \end{itemize}
+        \end{enumerate}
 
-        Define $\vdash A$ to mean ``$A$ is of the form $p \vee \neg p$ for some variable $p$\,'', i.e., only certain tautologies are considered provable, while most valid formulas are not.
-
-        Formally,
-        $$
-        \vdash A \iff A \text{ is syntactically of the form } (p \vee \neg p)
-        $$
-        This system is sound (it never proves something false), but it is not complete (there are many valid formulas that cannot be proved).
-
-        \item \textbf{A provability predicate that is complete but not sound:}
-
-        Define $\vdash A$ to mean ``$A$ is any propositional formula'', i.e., every formula is provable, regardless of whether it is valid.
-
-        Formally,
-        $$
-        \vdash A \quad \text{for every formula } A
-        $$
-        In this case, every valid formula is provable (completeness), but also invalid ones are provable (not sound).
+        \item \textbf{Are the following formulas satisfied in $\mathcal{M}$? Justify briefly.}
+        \begin{enumerate}
+            \item $R(a, f(b))$
+            \begin{itemize}
+                \item $a^\mathcal{M} = \triangle$, $f(b)^\mathcal{M} = \triangledown$
+                \item $(\triangle, \triangledown) \in R^\mathcal{M}$
+                \item \textbf{Result:} Satisfied (True)
+            \end{itemize}
+            \item $R(f(f(f(a))), f(b))$
+            \begin{itemize}
+                \item $f(a) = \square$, $f(f(a)) = \triangledown$, $f(f(f(a))) = \lozenge$
+                \item $f(b) = \triangledown$
+                \item $(\lozenge, \triangledown) \notin R^\mathcal{M}$
+                \item \textbf{Result:} Not satisfied (False)
+            \end{itemize}
+            \item $\forall x_1\; (f(f(f(f(x_1)))) \approx x_1)$
+            \begin{itemize}
+                \item For all $m \in M$, $f(f(f(f(m)))) = m$ because $f$ is a permutation of order 4.
+                \item \textbf{Result:} Satisfied (True)
+            \end{itemize}
+        \end{enumerate}
     \end{enumerate}
 
-    
-    \subsection*{Exercise 3}
+    \subsection{Solution to Exercise 2}\label{subsec:solution-to-exercise-2}
 
-    Provide all variable assignments verifying the following propositional formulae:
-
-    \begin{enumerate}
-        \item $\neg p_1 \vee p_2$
-        \item $\neg p_1 \wedge (p_2 \rightarrow p_3)$
-        \item $(p_1 \rightarrow p_2) \wedge (\neg p_3)$
-    \end{enumerate}
-
-    \subsection*{Solution to Exercise 3}
-
-    For each formula, list all assignments of propositional variables that make the formula true.
+    Provide a model and a counter-model for the following formulas:
 
     \begin{enumerate}
-        \item $\neg p_1 \vee p_2$
-
-        The formula is true in all cases except when $p_1 = \text{True}$ and $p_2 = \text{False}$.
+        \item $\forall x\,((P(x, b) \wedge Q(x)) \rightarrow R(x, a))$\\
+        \textbf{Answer:}
         \begin{itemize}
-            \item $p_1 = \text{False}$, $p_2 = \text{False}$: True
-            \item $p_1 = \text{False}$, $p_2 = \text{True}$: True
-            \item $p_1 = \text{True}$, $p_2 = \text{True}$: True
-            \item $p_1 = \text{True}$, $p_2 = \text{False}$: False
+            \item \textit{Model:}
+            $\mathcal{M} = (\{1\};\ a^\mathcal{M} = 1;\ b^\mathcal{M} = 1;\ R^\mathcal{M} = \{\langle 1, 1 \rangle\};\ P^\mathcal{M} = \emptyset;\ Q^\mathcal{M} = \emptyset)$
+            \item \textit{Counter-model:}
+            $\mathcal{M} = (\{1\};\ a^\mathcal{M} = 1;\ b^\mathcal{M} = 1;\ P^\mathcal{M} = \{\langle 1, 1 \rangle\};\ Q^\mathcal{M} = \{1\};\ R^\mathcal{M} = \emptyset)$
         \end{itemize}
 
-        \item $\neg p_1 \wedge (p_2 \rightarrow p_3)$
-
-        The formula is true if $p_1 = \text{False}$ and either $p_2 = \text{False}$ or $p_3 = \text{True}$.
+        \item $\forall y\,(\exists x\ (R(a, x) \rightarrow (P(y, x) \wedge Q(y))))$\\
+        \textbf{Answer:}
         \begin{itemize}
-            \item $p_1 = \text{False}$, $p_2 = \text{False}$, $p_3 = \text{False}$: True
-            \item $p_1 = \text{False}$, $p_2 = \text{False}$, $p_3 = \text{True}$: True
-            \item $p_1 = \text{False}$, $p_2 = \text{True}$, $p_3 = \text{True}$: True
-            \item $p_1 = \text{False}$, $p_2 = \text{True}$, $p_3 = \text{False}$: False
-            \item Any assignment with $p_1 = \text{True}$: False
-        \end{itemize}
-
-        \item $(p_1 \rightarrow p_2) \wedge (\neg p_3)$
-
-        The formula is true if $p_3 = \text{False}$ and either $p_1 = \text{False}$ or $p_2 = \text{True}$.
-        \begin{itemize}
-            \item $p_1 = \text{False}$, $p_2 = \text{False}$, $p_3 = \text{False}$: True
-            \item $p_1 = \text{False}$, $p_2 = \text{True}$, $p_3 = \text{False}$: True
-            \item $p_1 = \text{True}$, $p_2 = \text{True}$, $p_3 = \text{False}$: True
-            \item $p_1 = \text{True}$, $p_2 = \text{False}$, $p_3 = \text{False}$: False
-            \item Any assignment with $p_3 = \text{True}$: False
-        \end{itemize}
-    \end{enumerate}
-
-
-    \subsection*{Exercise 4}
-
-    Simplify the following propositional formulas step-by-step by repeatedly applying De Morgan's Laws and other logical equivalences:
-
-    \begin{enumerate}
-        \item $\neg ((p \vee q) \wedge (\neg r \vee s))$
-
-        \item $\neg (\neg(p \wedge q) \vee (\neg r \wedge t))$
-
-        \item $\neg ((\neg(p \vee q)) \wedge \neg(\neg r \vee s))$
-
-        \item $\neg ((\neg p \vee q) \wedge (\neg t \vee \neg u))$
-    \end{enumerate}
-
-    \subsection*{Solution to Exercise 4}
-
-    \begin{enumerate}
-        \item
-        $\neg \big[ (p \vee q) \wedge (\neg r \vee s) \big]$
-        \begin{align*}
-            &= \neg (p \vee q) \vee \neg (\neg r \vee s) \quad\text{(De Morgan's Law)} \\
-            &= (\neg p \wedge \neg q) \vee (\neg (\neg r) \wedge \neg s) \quad\text{(De Morgan's Law)} \\
-            &= (\neg p \wedge \neg q) \vee (r \wedge \neg s) \quad\text{(Double negation)}
-        \end{align*}
-
-        \item
-        $\neg \big[ \neg(p \wedge q) \vee (\neg r \wedge t) \big]$
-        \begin{align*}
-            &= \neg \neg(p \wedge q) \wedge \neg (\neg r \wedge t) \quad\text{(De Morgan's Law)} \\
-            &= (p \wedge q) \wedge (\neg (\neg r) \vee \neg t) \quad\text{(De Morgan's Law)} \\
-            &= (p \wedge q) \wedge (r \vee \neg t) \quad\text{(Double negation)}
-        \end{align*}
-
-        \item
-        $\neg \big[ \neg(p \vee q) \wedge \neg(\neg r \vee s) \big]$
-        \begin{align*}
-            &= \neg \neg(p \vee q) \vee \neg \neg(\neg r \vee s) \quad\text{(De Morgan's Law)} \\
-            &= (p \vee q) \vee (\neg \neg(\neg r \vee s)) \quad\text{(Double negation)} \\
-            &= (p \vee q) \vee (\neg r \vee s) \quad\text{(Double negation)}
-        \end{align*}
-
-        \item
-        $\neg \big[ (\neg p \vee q) \wedge (\neg t \vee \neg u) \big]$
-        \begin{align*}
-            &= \neg (\neg p \vee q) \vee \neg (\neg t \vee \neg u) \quad\text{(De Morgan's Law)} \\
-            &= (p \wedge \neg q) \vee (t \wedge u) \quad\text{(De Morgan's Law)}
-        \end{align*}
-    \end{enumerate}
-
-    \subsection*{Exercise 5}
-
-    Show the following propositional formulae are not valid.
-    If they are satisfiable, provide a variable assignment verifying them:
-
-    \begin{enumerate}
-        \item $(p_1 \vee p_2) \wedge (p_3 \vee p_4)$
-        \item $\neg (\neg p_1 \wedge \neg p_2)$
-        \item $(\neg p_1 \wedge (\neg p_2 \rightarrow p_3))$
-    \end{enumerate}
-
-    \subsection*{Solution to Exercise 5}
-
-    \begin{enumerate}
-        \item \textbf{$(p_1 \vee p_2) \wedge (p_3 \vee p_4)$}
-
-        This formula is not valid, as it is not true under all assignments.
-        For example, if $p_1 = \text{False}$, $p_2 = \text{False}$, $p_3 = \text{False}$, $p_4 = \text{False}$, the formula evaluates to $\text{False}$.
-
-        However, it is satisfiable. For instance, if $p_1 = \text{True}$, $p_2 = \text{False}$, $p_3 = \text{True}$, $p_4 = \text{False}$, the formula evaluates to $\text{True}$.
-
-        \item \textbf{$\neg (\neg p_1 \wedge \neg p_2)$}
-
-        This formula is not valid, since for $p_1 = \text{False}$ and $p_2 = \text{False}$, $\neg p_1 = \text{True}$, $\neg p_2 = \text{True}$, and the formula becomes $\neg (\text{True} \wedge \text{True}) = \neg \text{True} = \text{False}$.
-
-        It is satisfiable, for example, with $p_1 = \text{True}$, $p_2 = \text{False}$ (the formula is $\neg (\text{False} \wedge \text{True}) = \neg \text{False} = \text{True}$).
-
-        \item \textbf{$(\neg p_1 \wedge (\neg p_2 \rightarrow p_3))$}
-
-        This formula is not valid. For example, if $p_1 = \text{True}$, $p_2 = \text{True}$, $p_3 = \text{False}$, then $\neg p_1 = \text{False}$ and the whole formula is $\text{False}$.
-
-        It is satisfiable. For example, if $p_1 = \text{False}$, $p_2 = \text{True}$, $p_3 = \text{False}$:
-        \begin{itemize}
-            \item $\neg p_1 = \text{True}$
-            \item $\neg p_2 = \text{False}$
-            \item $(\neg p_2 \rightarrow p_3) = (\text{False} \rightarrow \text{False}) = \text{True}$
-            \item Therefore, $\text{True} \wedge \text{True} = \text{True}$
+            \item \textit{Model:}
+            $\mathcal{M} = (\{1\};\ a^\mathcal{M} = 1;\ P^\mathcal{M} = \{\langle 1, 1 \rangle\};\ Q^\mathcal{M} = \{1\};\ R^\mathcal{M} = \emptyset)$
+            \item \textit{Counter-model:}
+            $\mathcal{M} = (\{1\};\ a^\mathcal{M} = 1;\ R^\mathcal{M} = \{\langle 1, 1 \rangle\};\ P^\mathcal{M} = \emptyset;\ Q^\mathcal{M} = \emptyset)$
         \end{itemize}
     \end{enumerate}
 
+    \subsection{Solution to Exercise 3}\label{subsec:solution-to-exercise-3}
+
+    \begin{enumerate}
+        \item $\forall x\, (\text{Ostrich}(x) \rightarrow (\text{Bird}(x) \wedge \neg \text{Fly}(x) \wedge \text{Wings}(x)))$\\[1ex]
+        ``All ostriches are birds, do not fly, and have wings.''
+
+        \item $\forall x\, \forall y\, ((\text{Wolf}(x) \wedge \text{Deer}(y)) \rightarrow \text{Hunts}(x, y))$\\[1ex]
+        ``Every wolf hunts every deer.''
+
+        \item $\forall x\, ((\text{Boat}(x) \wedge \text{Floats}(x, \text{Pacific})) \rightarrow (\neg\text{Leaky}(x) \wedge \exists y\, (\text{Crewed}(x, y))))$\\[1ex]
+        ``Every boat that floats in the Pacific is not leaky and is crewed by at least one person.''
+    \end{enumerate}
 
 \end{document}

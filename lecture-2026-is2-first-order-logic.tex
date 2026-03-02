@@ -8,14 +8,20 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{my-acronyms}
+\usepackage{hyperref}
 
 \title{
     Intelligent System 2\\
     Tutorial week 2: First Order Logic
 }
 
+\author{
+    Matteo Magnini\\
+    \href{mailto:matteo.magnini@uni.lu}{matteo.magnini@uni.lu}
+}
+
 \date{
-    27 February, 2026
+    26 February, 2026
 }
 
 % Document
@@ -124,6 +130,18 @@
     \forall x\, \forall y\;(\text{Cousin\_of}(x, y) \leftrightarrow \dots )\\
     \end{array}
     \]
+
+    %\[
+    %\begin{array}{ll}
+    %\forall x\, \forall y\;(\text{Parent\_of}(x, y) \leftrightarrow \text{Child\_of}(y, x)) \\
+    %\forall x\, \forall y\;(\text{Father\_of}(x, y) \leftrightarrow \text{Parent\_of}(x, y) \wedge \text{Male}(x)) \\
+    %\forall x\, \forall y\;(\text{Mother\_of}(x, y) \leftrightarrow \text{Parent\_of}(x, y) \wedge \text{Female}(x)) \\
+    %\forall x\, \forall y\;(\text{Sibling\_of}(x, y) \leftrightarrow \exists p\, (\text{Parent\_of}(p, x) \wedge \text{Parent\_of}(p, y) \wedge x \not\approx y)) \\
+    %\forall x\, \forall y\;(\text{Uncle\_of}(x, y) \leftrightarrow \exists p\, (\text{Parent\_of}(p, y) \wedge \text{Sibling\_of}(x, p) \wedge \text{Male}(x))) \\
+    %\forall x\, \forall y\;(\text{Grandma\_of}(x, y) \leftrightarrow \exists p\, (\text{Parent\_of}(p, y) \wedge \text{Mother\_of}(x, p))) \\
+    %\forall x\, \forall y\;(\text{Cousin\_of}(x, y) \leftrightarrow \exists p\, \exists q\, (\text{Parent\_of}(p, x) \wedge \text{Parent\_of}(q, y) \wedge \text{Sibling\_of}(p, q)))
+    %\end{array}
+    %\]
 
     \textbf{Hint:} You can use predicates already defined when defining the theory for other predicates.
 
